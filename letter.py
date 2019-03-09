@@ -172,7 +172,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
                 train_step.run(feed_dict={x: input_images[n * batch_size:(n + 1) * batch_size],
                                           y_: input_labels[n * batch_size:(n + 1) * batch_size], keep_prob: 0.5})
             if remainder > 0:
-                start_index = batches_count * batch_size;
+                start_index = batches_count * batch_size
                 train_step.run(feed_dict={x: input_images[start_index:input_count - 1],
                                           y_: input_labels[start_index:input_count - 1], keep_prob: 0.5})
 
@@ -182,7 +182,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
                 iterate_accuracy = accuracy.eval(feed_dict={x: val_images, y_: val_labels, keep_prob: 1.0})
                 print('第 %d 次训练迭代: 准确率 %0.5f%%' % (it, iterate_accuracy * 100))
                 if iterate_accuracy >= 0.9999 and it >= iterations:
-                    break;
+                    break
 
         print('完成训练!')
         time_elapsed = time.time() - time_begin

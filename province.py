@@ -10,7 +10,7 @@ import tensorflow as tf
 
 from PIL import Image
 
-SIZE = 1280
+SIZE = 1280   #就是32*40
 WIDTH = 32
 HEIGHT = 40
 NUM_CLASSES = 6
@@ -69,7 +69,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
                     for w in range(0, width):
                         # 通过这样的处理，使数字的线条变细，有利于提高识别准确率
                         if img.getpixel((w, h)) > 230:
-                            input_images[index][w + h * width] = 0
+                            input_images[index][w + h * width] = 0   #遍历每个像素，像素值大于230 设为0 否则为 1
                         else:
                             input_images[index][w + h * width] = 1
                 input_labels[index][i] = 1
@@ -109,7 +109,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
 
     with tf.Session() as sess:
         # 第一个卷积层
-        W_conv1 = tf.Variable(tf.truncated_normal([8, 8, 1, 16], stddev=0.1), name="W_conv1")
+        W_conv1 = tf.Variable(tf.truncated_normal([8, 8, 1, 16], stddev=0.1), name="W_conv1") #8书卷积核，1是输入维度16是输出的维度
         b_conv1 = tf.Variable(tf.constant(0.1, shape=[16]), name="b_conv1")
         conv_strides = [1, 1, 1, 1]
         kernel_size = [1, 2, 2, 1]
@@ -172,7 +172,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
                 train_step.run(feed_dict={x: input_images[n * batch_size:(n + 1) * batch_size],
                                           y_: input_labels[n * batch_size:(n + 1) * batch_size], keep_prob: 0.5})
             if remainder > 0:
-                start_index = batches_count * batch_size;
+                start_index = batches_count * batch_size
                 train_step.run(feed_dict={x: input_images[start_index:input_count - 1],
                                           y_: input_labels[start_index:input_count - 1], keep_prob: 0.5})
 
@@ -182,7 +182,7 @@ if __name__ == '__main__' and sys.argv[1] == 'train':
                 iterate_accuracy = accuracy.eval(feed_dict={x: val_images, y_: val_labels, keep_prob: 1.0})
                 print('第 %d 次训练迭代: 准确率 %0.5f%%' % (it, iterate_accuracy * 100))
                 if iterate_accuracy >= 0.9999 and it >= 150:
-                    break;
+                    break
 
         print('完成训练!')
         time_elapsed = time.time() - time_begin
@@ -275,3 +275,4 @@ if __name__ == '__main__' and sys.argv[1] == 'predict':
             PROVINCES[max1_index], max1 * 100, PROVINCES[max2_index], max2 * 100, PROVINCES[max3_index], max3 * 100))
 
         print("省份简称是: %s" % PROVINCES[nProvinceIndex])
+
